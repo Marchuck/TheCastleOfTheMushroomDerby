@@ -9,8 +9,11 @@ Random API review, XML parsing, Star Wars api and rxjava toys
 
 3.new APIs explored:
 -> handle transportation data(XML)
+
 http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList
+
 -> deal with star wars characters: 
+
 http://www.swapi.co/api/people/1/
 
 #TODO:
