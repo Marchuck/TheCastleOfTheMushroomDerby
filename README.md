@@ -8,8 +8,8 @@ Random API review, XML parsing, Star Wars api and rxjava toys
 2.deserializing XML document with XmlPullParser into Pojo
 
 3.new APIs(enpoints here):
-3.1.handle transportation data(XML): http://webservices.nextbus.com/service
-3.2.deal with star wars characters: www.swapi.co 
+3.1.handle transportation data(XML): http://webservices.nextbus.com/service/publicXMLFeed?command=agencyList
+3.2.deal with star wars characters: http://www.swapi.co/api/people/1/
 
 #//TODO:
 
