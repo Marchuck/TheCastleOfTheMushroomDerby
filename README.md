@@ -18,5 +18,5 @@ http://www.swapi.co/api/people/1/
 
 #TODO:
 
-Create easy to use lib which consumes XML response and deserializes it into model (generic & reflection) transform it into 
-rx-chain
+Create easy to use lib which consumes XML response and deserializes it into model 
+(generics & reflection) transform it into rx-chain
