@@ -1,0 +1,15 @@
+<resources>
+
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
+
+
+    <style name="wrapWrap" parent="Theme.AppCompat.Light">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">wrap_content</item>
+    </style>
+
+    <style name="textViewStyle1" parent="wrapWrap">
+        <item name="android:textSize">20sp</item>
+    </style>
+
+</resources>
