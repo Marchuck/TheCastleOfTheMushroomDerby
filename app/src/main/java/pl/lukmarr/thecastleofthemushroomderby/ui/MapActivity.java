@@ -4,8 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -42,14 +40,17 @@ import rx.subjects.Subject;
 public class MapActivity extends AppCompatActivity {
     public static final String TAG = MapActivity.class.getSimpleName();
     long time;
-
+    int j = 0;
+    RestAdapter wikiAdapter;
+    StarWarsClient wikiClient;
+    StarWarsClient client;
     public MapActivity() {
         super();
+        Log.d(TAG, "MapActivity() ");
         time = System.currentTimeMillis();
         setupAdapters();
         subjectRequest(++j);
     }
-
     private Subject<Figure, Figure> mSubject = PublishSubject.create();
 
     @Bind(R.id.tiles_frame_layout)
@@ -176,10 +177,6 @@ public class MapActivity extends AppCompatActivity {
         });
     }
 
-    int j = 0;
-    RestAdapter wikiAdapter;
-    StarWarsClient wikiClient;
-    StarWarsClient client;
 
     void setupAdapters() {
         wikiAdapter = new RestAdapter.Builder().setEndpoint(StarWarsClient.WIKI_ENDPOINT).build();
@@ -190,6 +187,7 @@ public class MapActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "onCreate ");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
         ButterKnife.bind(this);
@@ -271,27 +269,5 @@ public class MapActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         frameLayout.onPause();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_map, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 }
