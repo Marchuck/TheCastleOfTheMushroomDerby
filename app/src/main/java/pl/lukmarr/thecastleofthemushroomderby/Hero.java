@@ -18,13 +18,14 @@ public class Hero {
     private String birthYear;
     private String gender;
     private String homeworld;
-    private List<String> films = new ArrayList<String>();
-    private List<String> species = new ArrayList<String>();
-    private List<String> vehicles = new ArrayList<String>();
-    private List<String> starships = new ArrayList<String>();
+    private List<String> films = new ArrayList<>();
+    private List<String> species = new ArrayList<>();
+    private List<String> vehicles = new ArrayList<>();
+    private List<String> starships = new ArrayList<>();
     private String created;
     private String edited;
     private String url;
+    private List<Hero> parents = new ArrayList<>();
 
     public Hero() {
     }

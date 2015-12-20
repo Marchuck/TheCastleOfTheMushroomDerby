@@ -1,4 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby;
+package pl.lukmarr.thecastleofthemushroomderby.xmlParser;
 
 import android.util.Log;
 import android.util.Xml;
@@ -63,9 +63,7 @@ public class AgenciesProvider {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if (in != null) {
-                    return readStream(in);
-                }
+                if (in != null) return readStream(in);
                 return null;
             }
         }).subscribe(new Action1<List<Agency>>() {
@@ -88,26 +86,12 @@ public class AgenciesProvider {
 
 
     private static List<Agency> readStream(InputStream in) {
-
-        try {
-            XmlPullParser parser = Xml.newPullParser();
-            try {
-                parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
-
-                parser.setInput(in, null);
-                parser.nextTag();
-                return readBody(parser);
-            } catch (IOException | XmlPullParserException e) {
-                e.printStackTrace();
+        return XmlCore.readStream(in, new XmlCore.Readable<Agency>() {
+            @Override
+            public List<Agency> readBody(XmlPullParser parser) {
+                return AgenciesProvider.readBody(parser);
             }
-        } finally {
-            try {
-                in.close();
-            } catch (IOException x) {
-                x.printStackTrace();
-            }
-        }
-        return null;
+        });
     }
 
     private static List<Agency> readBody(XmlPullParser parser) {
@@ -124,34 +108,13 @@ public class AgenciesProvider {
                 if (name.equals("agency")) {
                     agencies.add(readAgency(parser));
                 } else {
-                    skip(parser);
+                    XmlCore.skip(parser);
                 }
             }
         } catch (IOException | XmlPullParserException e) {
             e.printStackTrace();
         }
         return agencies;
-    }
-
-    // Parses the contents of an entry. If it encounters a title, summary, or link tag, hands them off
-// to their respective "read" methods for processing. Otherwise, skips the tag.
-
-
-    private static void skip(XmlPullParser parser) throws XmlPullParserException, IOException {
-        if (parser.getEventType() != XmlPullParser.START_TAG) {
-            throw new IllegalStateException();
-        }
-        int depth = 1;
-        while (depth != 0) {
-            switch (parser.next()) {
-                case XmlPullParser.END_TAG:
-                    depth--;
-                    break;
-                case XmlPullParser.START_TAG:
-                    depth++;
-                    break;
-            }
-        }
     }
 
 

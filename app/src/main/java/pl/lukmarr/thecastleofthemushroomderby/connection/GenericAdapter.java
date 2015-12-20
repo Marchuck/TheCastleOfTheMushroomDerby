@@ -52,6 +52,7 @@ public class GenericAdapter<T> {
         public T deserialize(JsonElement json, java.lang.reflect.Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
             Log.d("Deserializer", "deserialize json: " + json);
+
             return new Gson().fromJson(json, setDestinationClass());
         }
     }

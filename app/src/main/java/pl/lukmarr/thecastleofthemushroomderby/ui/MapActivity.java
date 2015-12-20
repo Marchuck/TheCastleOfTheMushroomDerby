@@ -166,26 +166,22 @@ public class MapActivity extends AppCompatActivity {
         });
     }
 
-    private String getImage(Response result) {
+    private String getImage(Response response1) {
         Log.d(TAG, "getImage ");
-        BufferedReader reader = null;
+        BufferedReader reader;
         StringBuilder sb = new StringBuilder();
         try {
-            reader = new BufferedReader(new InputStreamReader(result.getBody().in()));
+            reader = new BufferedReader(new InputStreamReader(response1.getBody().in()));
             String line;
-            try {
-                while ((line = reader.readLine()) != null) {
-                    sb.append(line);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
+            while ((line = reader.readLine()) != null) {
+                sb.append(line);
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-        String response = sb.toString();
-        Log.d(TAG, response);
-        String[] ff = response.split("\"");
+        String result = sb.toString();
+        Log.d(TAG, result);
+        String[] ff = result.split("\"");
         for (String g : ff) {
             if (g.contains("vignette") && g.contains(".jpg")) {
                 Log.i(TAG, g);

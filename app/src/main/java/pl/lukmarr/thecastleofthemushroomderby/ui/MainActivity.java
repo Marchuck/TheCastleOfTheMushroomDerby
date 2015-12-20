@@ -1,4 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby;
+package pl.lukmarr.thecastleofthemushroomderby.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,12 +13,15 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import pl.lukmarr.thecastleofthemushroomderby.Hero;
+import pl.lukmarr.thecastleofthemushroomderby.R;
 import pl.lukmarr.thecastleofthemushroomderby.adapters.AgencyAdapter;
 import pl.lukmarr.thecastleofthemushroomderby.connection.AgencyConnector;
 import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
 import pl.lukmarr.thecastleofthemushroomderby.model.Agency;
 import pl.lukmarr.thecastleofthemushroomderby.options.Config;
-import pl.lukmarr.thecastleofthemushroomderby.ui.MapActivity;
+import pl.lukmarr.thecastleofthemushroomderby.xmlParser.AgenciesProvider;
+import pl.lukmarr.thecastleofthemushroomderby.xmlParser.ClassReflector;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -55,5 +58,8 @@ public class MainActivity extends AppCompatActivity {
                 agencyAdapter.refresh(items);
             }
         });
+
+
+        ClassReflector.review(Hero.class);
     }
 }
