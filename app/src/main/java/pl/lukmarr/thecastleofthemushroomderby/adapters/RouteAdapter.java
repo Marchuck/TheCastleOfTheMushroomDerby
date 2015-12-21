@@ -1,5 +1,6 @@
 package pl.lukmarr.thecastleofthemushroomderby.adapters;
 
+import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,17 +15,17 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.lukmarr.thecastleofthemushroomderby.R;
 import pl.lukmarr.thecastleofthemushroomderby.connection.AdapterConnector;
-import pl.lukmarr.thecastleofthemushroomderby.model.Agency;
+import pl.lukmarr.thecastleofthemushroomderby.model.Route;
 
-public class AgencyAdapter extends RecyclerView.Adapter<AgencyAdapter.ItemViewHolder> {
-    private final List<Agency> mItems = new ArrayList<>();
+public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ItemViewHolder> {
+    private final List<Route> mItems = new ArrayList<>();
 
     /**
      * lel class with lowerCase?!!1
      */
     onclick listener;
 
-    public AgencyAdapter(@NonNull List<Agency> dataSet, AdapterConnector<Agency> connector) {
+    public RouteAdapter(@NonNull List<Route> dataSet, AdapterConnector<Route> connector) {
         mItems.addAll(dataSet);
         notifyDataSetChanged();
         listener = new onclick(connector);
@@ -39,8 +40,7 @@ public class AgencyAdapter extends RecyclerView.Adapter<AgencyAdapter.ItemViewHo
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, final int position) {
 
-        Agency agency = mItems.get(position);
-        holder.region.setText(agency.getRegionTitle());
+        Route agency = mItems.get(position);
         holder.title.setText(agency.getTitle());
         holder.itemView.setOnClickListener(getOnclick(position));
         if (position % 2 == 0)
@@ -51,22 +51,25 @@ public class AgencyAdapter extends RecyclerView.Adapter<AgencyAdapter.ItemViewHo
     }
 
     View.OnClickListener getOnclick(int pos) {
-        listener.setAgency(mItems.get(pos));
+        listener.setRoute(mItems.get(pos));
         return listener;
     }
 
     private static class onclick implements View.OnClickListener {
-        AdapterConnector<Agency> connector;
-        Agency agency;
-        public onclick(AdapterConnector<Agency> connector) {
+        AdapterConnector<Route> connector;
+        Route route;
+
+        public onclick(AdapterConnector<Route> connector) {
             this.connector = connector;
         }
-        void setAgency(Agency a) {
-            agency = a;
+
+        void setRoute(Route a) {
+            route = a;
         }
+
         @Override
         public void onClick(View v) {
-            connector.onClicked(agency);
+            connector.onClicked(route);
         }
     }
 
@@ -75,7 +78,7 @@ public class AgencyAdapter extends RecyclerView.Adapter<AgencyAdapter.ItemViewHo
         return mItems.size();
     }
 
-    public void refresh(List<Agency> items) {
+    public void refresh(List<Route> items) {
         mItems.clear();
         mItems.addAll(items);
         notifyDataSetChanged();
@@ -86,13 +89,12 @@ public class AgencyAdapter extends RecyclerView.Adapter<AgencyAdapter.ItemViewHo
         public View v;
         @Bind(R.id.title)
         public TextView title;
-        @Bind(R.id.regionTitle)
-        public TextView region;
 
         public ItemViewHolder(View v) {
             super(v);
             this.v = v;
             ButterKnife.bind(this, v);
+            title.setTextColor(Color.WHITE);
         }
     }
 }

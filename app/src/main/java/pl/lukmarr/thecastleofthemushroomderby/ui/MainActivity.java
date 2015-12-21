@@ -16,7 +16,7 @@ import butterknife.ButterKnife;
 import pl.lukmarr.thecastleofthemushroomderby.Hero;
 import pl.lukmarr.thecastleofthemushroomderby.R;
 import pl.lukmarr.thecastleofthemushroomderby.adapters.AgencyAdapter;
-import pl.lukmarr.thecastleofthemushroomderby.connection.AgencyConnector;
+import pl.lukmarr.thecastleofthemushroomderby.connection.AdapterConnector;
 import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
 import pl.lukmarr.thecastleofthemushroomderby.model.Agency;
 import pl.lukmarr.thecastleofthemushroomderby.options.Config;
@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        agencyAdapter = new AgencyAdapter(new ArrayList<Agency>(), new AgencyConnector() {
+        agencyAdapter = new AgencyAdapter(new ArrayList<Agency>(), new AdapterConnector<Agency>() {
             @Override
             public void onClicked(Agency agency) {
                 Config.TAG = agency.getTag();
-                Intent d = new Intent(MainActivity.this, MapActivity.class);
+                Intent d = new Intent(MainActivity.this, RouteListActivity.class);
                 startActivity(d);
             }
         });

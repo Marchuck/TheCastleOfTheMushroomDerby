@@ -1,6 +1,10 @@
 <resources>
 
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar"/>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+
+        <item name="android:windowBackground">@drawable/blank</item>
+
+    </style>
 
 
     <style name="wrapWrap" parent="Theme.AppCompat.Light">
@@ -9,7 +13,7 @@
     </style>
 
     <style name="textViewStyle1" parent="wrapWrap">
-        <item name="android:textSize">20sp</item>
+        <item name="android:textSize">17sp</item>
     </style>
 
 </resources>

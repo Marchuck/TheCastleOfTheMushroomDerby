@@ -14,7 +14,8 @@ import java.util.List;
 
 import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
 import pl.lukmarr.thecastleofthemushroomderby.connection.NextBusClient;
-import pl.lukmarr.thecastleofthemushroomderby.model.Agency;
+import pl.lukmarr.thecastleofthemushroomderby.model.Route;
+import pl.lukmarr.thecastleofthemushroomderby.options.Config;
 import retrofit.RestAdapter;
 import retrofit.client.Response;
 import rx.android.schedulers.AndroidSchedulers;
@@ -27,16 +28,16 @@ import rx.functions.Func1;
  *
  * @since 19.12.15
  */
-public class AgenciesProvider {
-    public static final String TAG = AgenciesProvider.class.getSimpleName();
+public class RoutesProvider {
+    public static final String TAG = RoutesProvider.class.getSimpleName();
     public static String ns = null;
 
-    public static void xmlParse(final View progressView, final DataCallback<Agency> callback) {
+    public static void xmlParse(final View progressView, final DataCallback<Route> callback) {
         Log.d(TAG, "xmlParse ");
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(NextBusClient.ENDPOINT).build();
         NextBusClient nextBusClient = adapter.create(NextBusClient.class);
 
-        nextBusClient.getTransportProviders("agencyList")
+        nextBusClient.getRouteList("routeList", Config.TAG)
                 .observeOn(AndroidSchedulers.mainThread())
                 .doOnSubscribe(new Action0() {
                     @Override
@@ -53,9 +54,9 @@ public class AgenciesProvider {
             public void call(Throwable throwable) {
                 progressView.setVisibility(View.GONE);
             }
-        }).map(new Func1<Response, List<Agency>>() {
+        }).map(new Func1<Response, List<Route>>() {
             @Override
-            public List<Agency> call(Response response) {
+            public List<Route> call(Response response) {
                 InputStream in = null;
                 try {
                     Log.d(TAG, response.getBody().toString());
@@ -66,13 +67,13 @@ public class AgenciesProvider {
                 if (in != null) return readStream(in);
                 return null;
             }
-        }).subscribe(new Action1<List<Agency>>() {
+        }).subscribe(new Action1<List<Route>>() {
             @Override
-            public void call(List<Agency> agencies) {
+            public void call(List<Route> routes) {
                 if (callback != null)
-                    callback.onDataReceived(agencies);
-                for (Agency agency : agencies) {
-                    Log.d(TAG, "received next agency: " + agency);
+                    callback.onDataReceived(routes);
+                for (Route route : routes) {
+                    Log.d(TAG, "received next route: " + route);
                 }
             }
         }, new Action1<Throwable>() {
@@ -85,17 +86,17 @@ public class AgenciesProvider {
     }
 
 
-    private static List<Agency> readStream(InputStream in) {
-        return XmlCore.readStream(in, new XmlCore.Readable<Agency>() {
+    private static List<Route> readStream(InputStream in) {
+        return XmlCore.readStream(in, new XmlCore.Readable<Route>() {
             @Override
-            public List<Agency> readBody(XmlPullParser parser) {
-                return AgenciesProvider.readBody(parser);
+            public List<Route> readBody(XmlPullParser parser) {
+                return RoutesProvider.readBody(parser);
             }
         });
     }
 
-    private static List<Agency> readBody(XmlPullParser parser) {
-        List<Agency> agencies = new ArrayList<>();
+    private static List<Route> readBody(XmlPullParser parser) {
+        List<Route> agencies = new ArrayList<>();
         try {
             parser.require(XmlPullParser.START_TAG, null, "body");
 
@@ -105,8 +106,8 @@ public class AgenciesProvider {
                 }
                 String name = parser.getName();
                 // Starts by looking for the entry tag
-                if (name.equals("agency")) {
-                    agencies.add(readAgency(parser));
+                if (name.equals("route")) {
+                    agencies.add(readRoute(parser));
                 } else {
                     XmlCore.skip(parser);
                 }
@@ -117,16 +118,15 @@ public class AgenciesProvider {
         return agencies;
     }
 
-
-    private static Agency readAgency(XmlPullParser parser) throws IOException, XmlPullParserException {
+    private static Route readRoute(XmlPullParser parser) throws IOException, XmlPullParserException {
         parser.setFeature(Xml.FEATURE_RELAXED, true);
-        parser.require(XmlPullParser.START_TAG, ns, "agency");
+        parser.require(XmlPullParser.START_TAG, ns, "route");
         String mTag = parser.getName();
-        Log.d(TAG, "readAgency :  tag name: " + mTag);
+        Log.d(TAG, "readRoute :  tag name: " + mTag);
         String tag = parser.getAttributeValue(null, "tag");
         String title = parser.getAttributeValue(null, "title");
-        String regionTitle = parser.getAttributeValue(null, "regionTitle");
+        String subtitle = parser.getAttributeValue(null, "subTitle");
         //parser.require(XmlPullParser.END_TAG,ns,"agency");
-        return new Agency(tag, title, regionTitle);
+        return new Route(tag, title, subtitle);
     }
 }
