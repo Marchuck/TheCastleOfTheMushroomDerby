@@ -7,4 +7,5 @@ package pl.lukmarr.thecastleofthemushroomderby.options;
  */
 public class Config {
     public static String TAG = null;
+    public static boolean OFFER_DETAILS_TRAFFIC_ENABLED = false;
 }

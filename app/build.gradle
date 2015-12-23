@@ -30,4 +30,11 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.yalantis:starwarstiles:0.1.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
+
+    compile 'com.google.android.gms:play-services-location:8.3.0'
+    compile 'com.google.android.gms:play-services-maps:8.3.0'
+    compile('com.stanfy:gson-xml-java:0.1.+') {
+        exclude group: 'xmlpull', module: 'xmlpull'
+    }
+    compile 'com.novoda:sexp:1.0.7'
 }

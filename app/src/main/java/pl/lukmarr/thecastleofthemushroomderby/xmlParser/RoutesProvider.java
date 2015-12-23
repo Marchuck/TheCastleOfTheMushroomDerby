@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
+import pl.lukmarr.thecastleofthemushroomderby.connection.ListCallback;
 import pl.lukmarr.thecastleofthemushroomderby.connection.NextBusClient;
 import pl.lukmarr.thecastleofthemushroomderby.model.Route;
 import pl.lukmarr.thecastleofthemushroomderby.options.Config;
@@ -32,7 +32,7 @@ public class RoutesProvider {
     public static final String TAG = RoutesProvider.class.getSimpleName();
     public static String ns = null;
 
-    public static void xmlParse(final View progressView, final DataCallback<Route> callback) {
+    public static void xmlParse(final View progressView, final ListCallback<Route> callback) {
         Log.d(TAG, "xmlParse ");
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(NextBusClient.ENDPOINT).build();
         NextBusClient nextBusClient = adapter.create(NextBusClient.class);
@@ -71,7 +71,7 @@ public class RoutesProvider {
             @Override
             public void call(List<Route> routes) {
                 if (callback != null)
-                    callback.onDataReceived(routes);
+                    callback.onListReceived(routes);
                 for (Route route : routes) {
                     Log.d(TAG, "received next route: " + route);
                 }
@@ -87,7 +87,7 @@ public class RoutesProvider {
 
 
     private static List<Route> readStream(InputStream in) {
-        return XmlCore.readStream(in, new XmlCore.Readable<Route>() {
+        return XmlCore.readStreamAsList(in, new XmlCore.ReadableList<Route>() {
             @Override
             public List<Route> readBody(XmlPullParser parser) {
                 return RoutesProvider.readBody(parser);

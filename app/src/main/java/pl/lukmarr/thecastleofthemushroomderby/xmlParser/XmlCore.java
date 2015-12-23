@@ -17,8 +17,12 @@ import java.util.List;
  */
 public class XmlCore {
 
-    public interface Readable<T> {
+    public interface ReadableList<T> {
         List<T> readBody(XmlPullParser parser);
+    }
+
+    public interface ReadableObject<T> {
+        T readBody(XmlPullParser parser);
     }
 
     private XmlCore() {
@@ -43,14 +47,36 @@ public class XmlCore {
 
 
     @Nullable
-    public static <V> List<V> readStream(InputStream in, Readable<V> readable) {
+    public static <V> List<V> readStreamAsList(InputStream in, ReadableList<V> readableList) {
         try {
             XmlPullParser parser = Xml.newPullParser();
             try {
                 parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
                 parser.setInput(in, null);
                 parser.nextTag();
-                return readable.readBody(parser);
+                return readableList.readBody(parser);
+            } catch (IOException | XmlPullParserException e) {
+                e.printStackTrace();
+            }
+        } finally {
+            try {
+                in.close();
+            } catch (IOException x) {
+                x.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    public static <V> V readStreamAsObject(InputStream in, ReadableObject<V> readableList) {
+        try {
+            XmlPullParser parser = Xml.newPullParser();
+            try {
+                parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES, false);
+                parser.setInput(in, null);
+                parser.nextTag();
+                return readableList.readBody(parser);
             } catch (IOException | XmlPullParserException e) {
                 e.printStackTrace();
             }

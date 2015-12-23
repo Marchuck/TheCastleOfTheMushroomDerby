@@ -3,10 +3,13 @@ package pl.lukmarr.thecastleofthemushroomderby.adapters;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,8 +17,12 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.lukmarr.thecastleofthemushroomderby.R;
-import pl.lukmarr.thecastleofthemushroomderby.connection.AdapterConnector;
+import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
 import pl.lukmarr.thecastleofthemushroomderby.model.Route;
+import pl.lukmarr.thecastleofthemushroomderby.model.RouteConfigBody;
+import pl.lukmarr.thecastleofthemushroomderby.options.Config;
+import pl.lukmarr.thecastleofthemushroomderby.utils.DrawerConnector;
+import pl.lukmarr.thecastleofthemushroomderby.xmlParser.config.RoutesConfigXMLProvider;
 
 public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ItemViewHolder> {
     private final List<Route> mItems = new ArrayList<>();
@@ -25,10 +32,10 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ItemViewHold
      */
     onclick listener;
 
-    public RouteAdapter(@NonNull List<Route> dataSet, AdapterConnector<Route> connector) {
+    public RouteAdapter(@NonNull List<Route> dataSet, DrawerConnector drawerConnector) {
         mItems.addAll(dataSet);
         notifyDataSetChanged();
-        listener = new onclick(connector);
+        listener = new onclick(drawerConnector);
     }
 
     @Override
@@ -56,10 +63,11 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ItemViewHold
     }
 
     private static class onclick implements View.OnClickListener {
-        AdapterConnector<Route> connector;
+        public static final String TAG = onclick.class.getSimpleName();
+        DrawerConnector connector;
         Route route;
 
-        public onclick(AdapterConnector<Route> connector) {
+        public onclick(DrawerConnector connector) {
             this.connector = connector;
         }
 
@@ -69,7 +77,17 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ItemViewHold
 
         @Override
         public void onClick(View v) {
-            connector.onClicked(route);
+            if (!connector.isOpened()) {
+                RoutesConfigXMLProvider.getConfig(Config.TAG, route.getTag(), new DataCallback<RouteConfigBody>() {
+                    @Override
+                    public void onDataReceived(RouteConfigBody item) {
+                        Log.d(TAG, "onDataReceived " + item);
+                        LatLng latLng = new LatLng(item.getRoute().getLatMin(), item.getRoute().getLonMin());
+                        connector.openDrawer(latLng, item.getRoute().getColor());
+                    }
+                });
+            } else
+                connector.closeDrawer();
         }
     }
 

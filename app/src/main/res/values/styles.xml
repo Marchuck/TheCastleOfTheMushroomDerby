@@ -15,5 +15,8 @@
     <style name="textViewStyle1" parent="wrapWrap">
         <item name="android:textSize">17sp</item>
     </style>
-
+    <style name="wrapWrapCentered" parent="wrapWrap">
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_centerVertical">true</item>
+    </style>
 </resources>

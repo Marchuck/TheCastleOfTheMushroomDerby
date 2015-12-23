@@ -17,7 +17,7 @@ import pl.lukmarr.thecastleofthemushroomderby.Hero;
 import pl.lukmarr.thecastleofthemushroomderby.R;
 import pl.lukmarr.thecastleofthemushroomderby.adapters.AgencyAdapter;
 import pl.lukmarr.thecastleofthemushroomderby.connection.AdapterConnector;
-import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
+import pl.lukmarr.thecastleofthemushroomderby.connection.ListCallback;
 import pl.lukmarr.thecastleofthemushroomderby.model.Agency;
 import pl.lukmarr.thecastleofthemushroomderby.options.Config;
 import pl.lukmarr.thecastleofthemushroomderby.xmlParser.AgenciesProvider;
@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         });
         recyclerView.setAdapter(agencyAdapter);
 
-        AgenciesProvider.xmlParse(progressBar, new DataCallback<Agency>() {
+        AgenciesProvider.xmlParse(progressBar, new ListCallback<Agency>() {
             @Override
-            public void onDataReceived(final List<Agency> items) {
+            public void onListReceived(final List<Agency> items) {
                 agencyAdapter.refresh(items);
             }
         });

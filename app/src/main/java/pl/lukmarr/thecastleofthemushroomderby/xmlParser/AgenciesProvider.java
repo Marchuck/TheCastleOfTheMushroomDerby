@@ -12,7 +12,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
+import pl.lukmarr.thecastleofthemushroomderby.connection.ListCallback;
 import pl.lukmarr.thecastleofthemushroomderby.connection.NextBusClient;
 import pl.lukmarr.thecastleofthemushroomderby.model.Agency;
 import retrofit.RestAdapter;
@@ -31,7 +31,7 @@ public class AgenciesProvider {
     public static final String TAG = AgenciesProvider.class.getSimpleName();
     public static String ns = null;
 
-    public static void xmlParse(final View progressView, final DataCallback<Agency> callback) {
+    public static void xmlParse(final View progressView, final ListCallback<Agency> callback) {
         Log.d(TAG, "xmlParse ");
         RestAdapter adapter = new RestAdapter.Builder().setEndpoint(NextBusClient.ENDPOINT).build();
         NextBusClient nextBusClient = adapter.create(NextBusClient.class);
@@ -70,7 +70,7 @@ public class AgenciesProvider {
             @Override
             public void call(List<Agency> agencies) {
                 if (callback != null)
-                    callback.onDataReceived(agencies);
+                    callback.onListReceived(agencies);
                 for (Agency agency : agencies) {
                     Log.d(TAG, "received next agency: " + agency);
                 }
@@ -86,7 +86,7 @@ public class AgenciesProvider {
 
 
     private static List<Agency> readStream(InputStream in) {
-        return XmlCore.readStream(in, new XmlCore.Readable<Agency>() {
+        return XmlCore.readStreamAsList(in, new XmlCore.ReadableList<Agency>() {
             @Override
             public List<Agency> readBody(XmlPullParser parser) {
                 return AgenciesProvider.readBody(parser);
