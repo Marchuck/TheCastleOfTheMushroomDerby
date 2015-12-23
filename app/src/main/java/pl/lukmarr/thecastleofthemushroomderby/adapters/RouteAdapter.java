@@ -82,6 +82,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ItemViewHold
                     @Override
                     public void onDataReceived(RouteConfigBody item) {
                         Log.d(TAG, "onDataReceived " + item);
+
                         LatLng latLng = new LatLng(item.getRoute().getLatMin(), item.getRoute().getLonMin());
                         connector.openDrawer(latLng, item.getRoute().getColor());
                     }
