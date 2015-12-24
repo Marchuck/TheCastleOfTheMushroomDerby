@@ -1,4 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby.model.nextBus;
+package pl.lukmarr.thecastleofthemushroomderby.model.nextBus.config;
 
 import com.google.android.gms.maps.model.LatLng;
 

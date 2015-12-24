@@ -10,14 +10,11 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptor;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-import pl.lukmarr.thecastleofthemushroomderby.R;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.ExtendedRoute;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.config.ExtendedRoute;
 import pl.lukmarr.thecastleofthemushroomderby.options.Config;
 
 /**
@@ -35,31 +32,35 @@ public class RightDrawerHelper implements DrawerConnector {
     private GoogleMap tripGoogleMap;
     FragmentActivity activity;
     DrawerLayout drawerLayout;
-    Progressable progressable;
+    Progressive progressive;
     int mapViewHolder;
-    @Nullable LabelAdapterConnector labelConnector;
+    @Nullable
+    LabelAdapterConnector labelConnector;
+
     /**
      * @param activity      fragmentActivity for fragment transaction
-     * @param progressable  show/hide progressBar while map is loading
+     * @param progressive  show/hide progressBar while map is loading
      * @param drawerLayout  open/close/check if is opened
      * @param mapViewHolder viewgroup for mapFragment (FrameLayout, RelativeLayout) e.g. R.id.container
      */
-    public RightDrawerHelper(FragmentActivity activity, @Nullable Progressable progressable, DrawerLayout drawerLayout, int mapViewHolder) {
+    public RightDrawerHelper(FragmentActivity activity, @Nullable Progressive progressive, DrawerLayout drawerLayout, int mapViewHolder) {
         this.activity = activity;
         this.drawerLayout = drawerLayout;
-        this.progressable = progressable;
+        this.progressive = progressive;
         this.mapViewHolder = mapViewHolder;
     }
-    public void setLabelConnector(LabelAdapterConnector connector){
+
+    public void setLabelConnector(LabelAdapterConnector connector) {
         this.labelConnector = connector;
     }
 
-
     @Override
     public void openDrawer(final ExtendedRoute route) {
-        if(labelConnector!=null)
+
+        if (labelConnector != null)
             labelConnector.onDrawerOpened(route);
-//        final ExtendedRoute route = extendedRouteList.get(0);
+
+
         final LatLng position = route.getPath().get(0).getPoint().get(0).asLatLng();
 
         //provide NonNull Fragment instance
@@ -71,12 +72,12 @@ public class RightDrawerHelper implements DrawerConnector {
         activity.getSupportFragmentManager().beginTransaction().replace(mapViewHolder, mapFragment).commitAllowingStateLoss();
         drawerLayout.openDrawer(Gravity.RIGHT);
         //when map not ready, show progress bar indicator
-        if (progressable != null) progressable.showLoader(true);
+        if (progressive != null) progressive.showLoader(true);
         //when map is ready, draw marker and zoom GoogleMap
         mapFragment.getMapAsync(new OnMapReadyCallback() {
             @Override
             public void onMapReady(GoogleMap googleMap) {
-                if (progressable != null) progressable.showLoader(false);
+                if (progressive != null) progressive.showLoader(false);
                 tripGoogleMap = googleMap;
                 tripGoogleMap.clear();
                 tripGoogleMap.setTrafficEnabled(Config.RIGHT_DRAWER_TRAFFIC_ENABLED);
@@ -89,10 +90,6 @@ public class RightDrawerHelper implements DrawerConnector {
                 tripGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(position, 16, 60, 0)));
             }
         });
-    }
-
-    private BitmapDescriptor categorizedIconDescriptor(String categoryCode) {
-        return BitmapDescriptorFactory.fromResource(R.drawable.blank);
     }
 
     @Override

@@ -15,13 +15,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import pl.lukmarr.thecastleofthemushroomderby.R;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.ExtendedRoute;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.config.ExtendedRoute;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.config.Stop;
 import pl.lukmarr.thecastleofthemushroomderby.options.Config;
 import pl.lukmarr.thecastleofthemushroomderby.utils.DrawerConnector;
 import pl.lukmarr.thecastleofthemushroomderby.utils.LabelAdapterConnector;
 
 public class LabelAdapter extends RecyclerView.Adapter<LabelAdapter.ItemViewHolder> implements LabelAdapterConnector {
-
+    public static final String TAG = LabelAdapter.class.getSimpleName();
     Context context;
     View behindView;
     RecyclerView recyclerView;
@@ -92,8 +93,19 @@ public class LabelAdapter extends RecyclerView.Adapter<LabelAdapter.ItemViewHold
         if (position == 1) {
             holder.title.setText(currentTitle);
             holder.regionTitle.setText(currentDescription);
+            Log.d(TAG, "onBindViewHolder : colors: c = " + currentColor + ", o = " + oppositeColor);
+            try {
+                holder.itemView.setBackgroundColor(currentColor);
+                holder.regionTitle.setTextColor(oppositeColor);
+                holder.title.setTextColor(oppositeColor);
+            } catch (Exception x) {
+                x.printStackTrace();
+            }
         }
     }
+
+    int currentColor = Color.BLACK;
+    int oppositeColor = Color.WHITE;
 
     @Override
     public int getItemCount() {
@@ -102,11 +114,28 @@ public class LabelAdapter extends RecyclerView.Adapter<LabelAdapter.ItemViewHold
 
     @Override
     public void onDrawerOpened(ExtendedRoute route) {
-        currentTitle = route.getTitle();
-        currentDescription = route.getDirection().get(0).getName();
+
+        Log.e(TAG, "COLOR MAIN: " + route.getColor());
+        Log.e(TAG, "COLOR OPPOSITE: " + route.getOppositeColor());
+
+        try {
+            currentColor = Color.parseColor("#"+route.getColor());
+        } catch (Exception c) {
+            Log.e(TAG, "failed to parse color");
+        }
+        try {
+            oppositeColor = Color.parseColor("#"+route.getOppositeColor());
+        } catch (Exception c) {
+            Log.e(TAG, "failed to parse color");
+        }
+
+        currentTitle = route.getDirection().get(0).getName();
+        currentDescription = "Stops:\n";
+        for (Stop s : route.getStop()) {
+            currentDescription += s.getTitle() + "\n";
+        }
         notifyDataSetChanged();
     }
-
 
     public static class ItemViewHolder extends RecyclerView.ViewHolder {
 

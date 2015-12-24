@@ -1,4 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby.model.nextBus;
+package pl.lukmarr.thecastleofthemushroomderby.model.nextBus.route;
 
 /**
  * Created by Łukasz Marczak

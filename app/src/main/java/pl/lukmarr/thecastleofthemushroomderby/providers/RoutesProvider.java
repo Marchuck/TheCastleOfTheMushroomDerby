@@ -5,8 +5,8 @@ import android.util.Log;
 import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
 import pl.lukmarr.thecastleofthemushroomderby.connection.GenericAdapter;
 import pl.lukmarr.thecastleofthemushroomderby.connection.NextBusClient;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.RouteBody;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.RouteConfigBody;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.route.RouteBody;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.config.RouteConfigBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 
@@ -17,7 +17,6 @@ import rx.functions.Action1;
  */
 public class RoutesProvider {
     public static final String TAG = RoutesProvider.class.getSimpleName();
-    public static String ns = null;
 
     public static  void provide(String agencyTag, final DataCallback<RouteBody> callback) {
         GenericAdapter<RouteConfigBody> adapter = new GenericAdapter<>(NextBusClient.ENDPOINT, RouteConfigBody.class);

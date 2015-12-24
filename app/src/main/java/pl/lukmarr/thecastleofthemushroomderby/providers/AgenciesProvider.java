@@ -9,7 +9,7 @@ import pl.lukmarr.thecastleofthemushroomderby.connection.GenericAdapter;
 import pl.lukmarr.thecastleofthemushroomderby.connection.NextBusClient;
 import pl.lukmarr.thecastleofthemushroomderby.connection.UIAction;
 import pl.lukmarr.thecastleofthemushroomderby.connection.UIError;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.AgencyBody;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.agency.AgencyBody;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.functions.Action1;
 

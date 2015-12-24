@@ -13,6 +13,9 @@ import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -20,15 +23,17 @@ import pl.lukmarr.thecastleofthemushroomderby.R;
 import pl.lukmarr.thecastleofthemushroomderby.adapters.LabelAdapter;
 import pl.lukmarr.thecastleofthemushroomderby.adapters.RouteAdapter;
 import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.Route;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.RouteBody;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.route.Route;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.route.RouteBody;
 import pl.lukmarr.thecastleofthemushroomderby.options.Config;
 import pl.lukmarr.thecastleofthemushroomderby.providers.RoutesProvider;
-import pl.lukmarr.thecastleofthemushroomderby.utils.Progressable;
+import pl.lukmarr.thecastleofthemushroomderby.utils.Progressive;
 import pl.lukmarr.thecastleofthemushroomderby.utils.RightDrawerHelper;
 
-public class RouteChooseActivity extends AppCompatActivity implements Progressable {
+public class RouteChooseActivity extends AppCompatActivity implements Progressive {
     public static final String TAG = RouteChooseActivity.class.getSimpleName();
+    @Bind(R.id.progressBar)
+    ProgressBar progressBar;
     @Bind(R.id.mapLoader)
     ProgressBar mapLoader;
     @Bind(R.id.recyclerView)
@@ -55,11 +60,10 @@ public class RouteChooseActivity extends AppCompatActivity implements Progressab
         helper = new RightDrawerHelper(this, this, drawerLayout, R.id.content);
 
 
-        routeAdapter = new RouteAdapter(new ArrayList<Route>(), helper);
+        routeAdapter = new RouteAdapter(this, progressBar, new ArrayList<Route>(), helper);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(routeAdapter);
-
 
         recyclerView2.setLayoutManager(new LinearLayoutManager(this));
         LabelAdapter labelAdapter = new LabelAdapter(this, frejm, recyclerView2, helper);
@@ -69,10 +73,17 @@ public class RouteChooseActivity extends AppCompatActivity implements Progressab
         RoutesProvider.provide(Config.TAG, new DataCallback<RouteBody>() {
             @Override
             public void onDataReceived(RouteBody item) {
-                routeAdapter.refresh(item.getRoute());
+                List<Route> r = new ArrayList<>();
+                r.addAll(item.getRoute());
+                Collections.sort(r, new Comparator<Route>() {
+                    @Override
+                    public int compare(Route left, Route right) {
+                        return left.getTitle().compareTo(right.getTitle());
+                    }
+                });
+                routeAdapter.refresh(r);
             }
         });
-
         initDrawer();
     }
 

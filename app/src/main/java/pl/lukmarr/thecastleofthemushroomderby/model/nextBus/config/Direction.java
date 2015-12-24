@@ -1,4 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby.model.nextBus;
+package pl.lukmarr.thecastleofthemushroomderby.model.nextBus.config;
 
 import java.util.ArrayList;
 import java.util.List;

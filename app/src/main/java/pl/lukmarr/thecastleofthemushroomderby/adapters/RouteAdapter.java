@@ -1,5 +1,6 @@
 package pl.lukmarr.thecastleofthemushroomderby.adapters;
 
+import android.app.Activity;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -15,8 +16,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.lukmarr.thecastleofthemushroomderby.R;
 import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.Route;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.RouteConfigBody;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.route.Route;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.config.RouteConfigBody;
 import pl.lukmarr.thecastleofthemushroomderby.options.Config;
 import pl.lukmarr.thecastleofthemushroomderby.providers.RouteConfigProvider;
 import pl.lukmarr.thecastleofthemushroomderby.utils.DrawerConnector;
@@ -29,10 +30,13 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ItemViewHold
      */
     onclick listener;
 
-    public RouteAdapter(@NonNull List<Route> dataSet, DrawerConnector drawerConnector) {
+    public RouteAdapter(Activity a,
+                        View progressBar, @NonNull List<Route> dataSet, DrawerConnector drawerConnector) {
         mItems.addAll(dataSet);
         notifyDataSetChanged();
         listener = new onclick(drawerConnector);
+        listener.a = a;
+        listener.progressBar = progressBar;
     }
 
     @Override
@@ -63,6 +67,8 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ItemViewHold
         public static final String TAG = onclick.class.getSimpleName();
         DrawerConnector connector;
         Route route;
+        Activity a;
+        View progressBar;
 
         public onclick(DrawerConnector connector) {
             this.connector = connector;
@@ -75,7 +81,7 @@ public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.ItemViewHold
         @Override
         public void onClick(View v) {
             if (!connector.isOpened()) {
-                RouteConfigProvider.provide(Config.TAG, route.getTag(), new DataCallback<RouteConfigBody>() {
+                RouteConfigProvider.provide(a, progressBar, Config.TAG, route.getTag(), new DataCallback<RouteConfigBody>() {
                     @Override
                     public void onDataReceived(RouteConfigBody item) {
                         connector.openDrawer(item.getRoute());

@@ -14,7 +14,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import pl.lukmarr.thecastleofthemushroomderby.R;
 import pl.lukmarr.thecastleofthemushroomderby.connection.AdapterConnector;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.Agency;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.agency.Agency;
 
 public class AgencyAdapter extends RecyclerView.Adapter<AgencyAdapter.ItemViewHolder> {
     private final List<Agency> mItems = new ArrayList<>();

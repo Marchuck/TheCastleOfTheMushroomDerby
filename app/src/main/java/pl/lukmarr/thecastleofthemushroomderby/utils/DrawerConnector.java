@@ -10,7 +10,7 @@ package pl.lukmarr.thecastleofthemushroomderby.utils;
 
 import java.io.Serializable;
 
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.ExtendedRoute;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.config.ExtendedRoute;
 
 public interface DrawerConnector extends Serializable {
     void openDrawer( ExtendedRoute  extendedRoutes);

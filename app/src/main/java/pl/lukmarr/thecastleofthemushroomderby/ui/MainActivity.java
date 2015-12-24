@@ -20,8 +20,8 @@ import pl.lukmarr.thecastleofthemushroomderby.R;
 import pl.lukmarr.thecastleofthemushroomderby.adapters.AgencyAdapter;
 import pl.lukmarr.thecastleofthemushroomderby.connection.AdapterConnector;
 import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.Agency;
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.AgencyBody;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.agency.Agency;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.agency.AgencyBody;
 import pl.lukmarr.thecastleofthemushroomderby.options.Config;
 import pl.lukmarr.thecastleofthemushroomderby.providers.AgenciesProvider;
 

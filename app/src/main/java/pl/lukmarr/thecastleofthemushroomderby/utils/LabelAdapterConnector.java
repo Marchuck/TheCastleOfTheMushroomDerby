@@ -1,6 +1,6 @@
 package pl.lukmarr.thecastleofthemushroomderby.utils;
 
-import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.ExtendedRoute;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.config.ExtendedRoute;
 
 /**
  * Created by Łukasz Marczak

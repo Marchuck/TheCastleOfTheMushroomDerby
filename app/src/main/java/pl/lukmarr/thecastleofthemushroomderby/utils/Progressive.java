@@ -7,6 +7,6 @@ package pl.lukmarr.thecastleofthemushroomderby.utils;
  * @since 2015-12-15.
  * Copyright © 2015 SoInteractive S.A. All rights reserved.
  */
-public interface Progressable {
+public interface Progressive {
     void showLoader(boolean show);
 }
