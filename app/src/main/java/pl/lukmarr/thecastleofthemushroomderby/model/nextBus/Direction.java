@@ -1,6 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby.model;
-
-import com.google.gson.annotations.SerializedName;
+package pl.lukmarr.thecastleofthemushroomderby.model.nextBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +9,12 @@ import java.util.List;
  * @since 22.12.15
  */
 public class Direction {
-    @SerializedName("tag")
     private String tag;
 
-    @SerializedName("title")
     private String title;
 
-    @SerializedName("name")
     private String name;
-    @SerializedName("useForUI")
     private String useForUI;
-    @SerializedName("stop")
     private List<StopTag> stop = new ArrayList<>();
 
     public Direction() {

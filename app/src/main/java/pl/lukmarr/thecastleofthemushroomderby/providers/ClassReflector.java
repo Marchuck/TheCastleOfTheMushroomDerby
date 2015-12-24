@@ -1,4 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby.xmlParser;
+package pl.lukmarr.thecastleofthemushroomderby.providers;
 
 import android.util.Log;
 

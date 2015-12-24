@@ -1,6 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby.model;
-
-import com.google.gson.annotations.SerializedName;
+package pl.lukmarr.thecastleofthemushroomderby.model.nextBus;
 
 /**
  * Created by Łukasz Marczak
@@ -9,7 +7,6 @@ import com.google.gson.annotations.SerializedName;
  */
 public class StopTag {
 
-    @SerializedName("tag")
     private String tag;
 
     public StopTag() {

@@ -1,6 +1,8 @@
 package pl.lukmarr.thecastleofthemushroomderby.connection;
 
-import retrofit.client.Response;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.AgencyBody;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.RouteBody;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.RouteConfigBody;
 import retrofit.http.GET;
 import retrofit.http.Query;
 
@@ -16,20 +18,20 @@ public interface NextBusClient {
     /**
      * for fetching agencies: getTransportProviders("agencyList")
      */
-    @GET("/publicXMLFeed")
-    rx.Observable<Response> getTransportProviders(@Query("command") String command);
+    @GET("/publicJSONFeed")
+    rx.Observable<AgencyBody> getTransportProviders(@Query("command") String command);
 
     /**
      * command is "routeList", a is agency tag: {@link pl.lukmarr.thecastleofthemushroomderby.options.Config#TAG}
      */
-    @GET("/publicXMLFeed")
-    rx.Observable<Response> getRouteList(@Query("command") String command, @Query("a") String agencyTag);
+    @GET("/publicJSONFeed")
+    rx.Observable<RouteBody> getRouteList(@Query("command") String command, @Query("a") String agencyTag);
 
     /**
      * command is "routeConfig", a is agency tag: {@link pl.lukmarr.thecastleofthemushroomderby.options.Config#TAG}
      */
-    @GET("/publicXMLFeed")
-    rx.Observable<Response> getRouteConfig(@Query("command") String command,
+    @GET("/publicJSONFeed")
+    rx.Observable<RouteConfigBody> getRouteConfig(@Query("command") String command,
                                            @Query("a") String agencyTag, @Query("r") String routeTag);
 
 

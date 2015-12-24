@@ -1,27 +1,29 @@
 package pl.lukmarr.thecastleofthemushroomderby.ui;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import pl.lukmarr.thecastleofthemushroomderby.Hero;
 import pl.lukmarr.thecastleofthemushroomderby.R;
 import pl.lukmarr.thecastleofthemushroomderby.adapters.AgencyAdapter;
 import pl.lukmarr.thecastleofthemushroomderby.connection.AdapterConnector;
-import pl.lukmarr.thecastleofthemushroomderby.connection.ListCallback;
-import pl.lukmarr.thecastleofthemushroomderby.model.Agency;
+import pl.lukmarr.thecastleofthemushroomderby.connection.DataCallback;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.Agency;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.AgencyBody;
 import pl.lukmarr.thecastleofthemushroomderby.options.Config;
-import pl.lukmarr.thecastleofthemushroomderby.xmlParser.AgenciesProvider;
-import pl.lukmarr.thecastleofthemushroomderby.xmlParser.ClassReflector;
+import pl.lukmarr.thecastleofthemushroomderby.providers.AgenciesProvider;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,20 +48,53 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClicked(Agency agency) {
                 Config.TAG = agency.getTag();
-                Intent d = new Intent(MainActivity.this, RouteListActivity.class);
-                startActivity(d);
+                startActivity(new Intent(MainActivity.this, RouteChooseActivity.class));
             }
         });
         recyclerView.setAdapter(agencyAdapter);
 
-        AgenciesProvider.xmlParse(progressBar, new ListCallback<Agency>() {
+        if (Config.isNetworkAvailable(this)) {
+            downloadAgain();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setTitle("NO Internet Connection")
+                    .setNegativeButton("Close App", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    }).setPositiveButton("Enable", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    startActivityForResult(new Intent(Settings.ACTION_WIFI_SETTINGS), 100);
+                    dialog.dismiss();
+                }
+            }).show();
+        }
+    }
+
+    void downloadAgain() {
+        AgenciesProvider.provide(this, progressBar, new DataCallback<AgencyBody>() {
             @Override
-            public void onListReceived(final List<Agency> items) {
-                agencyAdapter.refresh(items);
+            public void onDataReceived(AgencyBody item) {
+                agencyAdapter.refresh(item.getAgency());
             }
         });
+    }
 
-
-        ClassReflector.review(Hero.class);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == 100 && Config.isNetworkAvailable(this)) {
+            downloadAgain();
+        } else {
+            Toast.makeText(this, "No internet connection. Closing app.", Toast.LENGTH_LONG).show();
+            new android.os.Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    finish();
+                }
+            }, 600);
+        }
     }
 }

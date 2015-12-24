@@ -24,7 +24,7 @@ import pl.lukmarr.thecastleofthemushroomderby.Hero;
 import pl.lukmarr.thecastleofthemushroomderby.R;
 import pl.lukmarr.thecastleofthemushroomderby.connection.GenericAdapter;
 import pl.lukmarr.thecastleofthemushroomderby.connection.StarWarsClient;
-import pl.lukmarr.thecastleofthemushroomderby.model.Figure;
+import pl.lukmarr.thecastleofthemushroomderby.model.starwars.Figure;
 import retrofit.RestAdapter;
 import retrofit.client.Response;
 import rx.Observable;
@@ -37,16 +37,16 @@ import rx.schedulers.Schedulers;
 import rx.subjects.PublishSubject;
 import rx.subjects.Subject;
 
-public class MapActivity extends AppCompatActivity {
-    public static final String TAG = MapActivity.class.getSimpleName();
+public class StarWarsActivity extends AppCompatActivity {
+    public static final String TAG = StarWarsActivity.class.getSimpleName();
     long time;
     int j = 0;
     RestAdapter wikiAdapter;
     StarWarsClient wikiClient;
     StarWarsClient client;
-    public MapActivity() {
+    public StarWarsActivity() {
         super();
-        Log.d(TAG, "MapActivity() ");
+        Log.d(TAG, "StarWarsActivity() ");
         time = System.currentTimeMillis();
         setupAdapters();
         subjectRequest(++j);
@@ -154,7 +154,7 @@ public class MapActivity extends AppCompatActivity {
                     public void run() {
                         textView.setText(figure.name);
                         Log.d(TAG, "time elapsed: " + (System.currentTimeMillis() - time));
-                        Picasso.with(MapActivity.this).load(figure.image).fit().into(imaegView);
+                        Picasso.with(StarWarsActivity.this).load(figure.image).fit().into(imaegView);
                     }
                 });
             }
@@ -167,7 +167,7 @@ public class MapActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 //                        textView.setText(throwable.getMessage());
-                        Picasso.with(MapActivity.this)
+                        Picasso.with(StarWarsActivity.this)
                                 .load(Color.BLACK)
                                 .fit()
                                 .into(imaegView);
@@ -200,7 +200,7 @@ public class MapActivity extends AppCompatActivity {
                     public void run() {
                         textView.setText(figure.name);
                         Log.d(TAG, "time elapsed: " + (System.currentTimeMillis() - time));
-                        Picasso.with(MapActivity.this).load(figure.image).fit().into(imaegView);
+                        Picasso.with(StarWarsActivity.this).load(figure.image).fit().into(imaegView);
                     }
                 });
             }
@@ -212,7 +212,7 @@ public class MapActivity extends AppCompatActivity {
                     @Override
                     public void run() {
 //                        textView.setText(throwable.getMessage());
-                        Picasso.with(MapActivity.this)
+                        Picasso.with(StarWarsActivity.this)
                                 .load(Color.BLACK)
                                 .fit()
                                 .into(imaegView);
@@ -223,7 +223,7 @@ public class MapActivity extends AppCompatActivity {
         frameLayout.setOnAnimationFinishedListener(new TilesFrameLayoutListener() {
             @Override
             public void onAnimationFinished() {
-                MapActivity.super.onBackPressed();
+                StarWarsActivity.super.onBackPressed();
 
             }
         });

@@ -1,6 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby.model;
-
-import com.google.gson.annotations.SerializedName;
+package pl.lukmarr.thecastleofthemushroomderby.model.nextBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,7 +9,6 @@ import java.util.List;
  * @since 22.12.15
  */
 public class Path {
-    @SerializedName("point")
     private List<Point> point = new ArrayList<>();
 
     public Path() {

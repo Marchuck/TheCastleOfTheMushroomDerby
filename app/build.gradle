@@ -3,7 +3,9 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
-
+    lintOptions {
+        abortOnError false
+    }
     defaultConfig {
         applicationId "pl.lukmarr.thecastleofthemushroomderby"
         minSdkVersion 16
@@ -20,7 +22,6 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
     compile 'com.android.support:appcompat-v7:23.1.1'
     compile 'com.android.support:design:23.0.1'
     compile 'com.android.support:recyclerview-v7:23.1.1'
@@ -33,8 +34,4 @@ dependencies {
 
     compile 'com.google.android.gms:play-services-location:8.3.0'
     compile 'com.google.android.gms:play-services-maps:8.3.0'
-    compile('com.stanfy:gson-xml-java:0.1.+') {
-        exclude group: 'xmlpull', module: 'xmlpull'
-    }
-    compile 'com.novoda:sexp:1.0.7'
 }

@@ -1,4 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby.model;
+package pl.lukmarr.thecastleofthemushroomderby.model.nextBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,39 +8,19 @@ import java.util.List;
  *
  * @since 22.12.15
  */
-public class HeaderRoute {
-    private String tag;
-    private String title;
-    private String color;
-    private String oppositeColor;
+public class ExtendedRoute {
     private double latMin;
     private double latMax;
     private double lonMin;
     private double lonMax;
+    private String title;
+    private String color;
+    private String oppositeColor;
     private List<Stop> stop = new ArrayList<>();
     private List<Direction> direction = new ArrayList<>();
     private List<Path> path = new ArrayList<>();
 
-    public HeaderRoute(String tag, String title, String color, String oppositeColor, double latMin, double latMax, double lonMin, double lonMax) {
-        this.tag = tag;
-        this.title = title;
-        this.color = color;
-        this.oppositeColor = oppositeColor;
-        this.latMin = latMin;
-        this.latMax = latMax;
-        this.lonMin = lonMin;
-        this.lonMax = lonMax;
-    }
-
-    public HeaderRoute() {
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
+    public ExtendedRoute() {
     }
 
     public String getTitle() {
@@ -121,21 +101,5 @@ public class HeaderRoute {
 
     public void setPath(List<Path> path) {
         this.path = path;
-    }
-
-    @Override
-    public String toString() {
-        return "tag='" + tag + '\'' +
-                ", title='" + title + '\'' +
-                ", color='" + color + '\'' +
-                ", oppositeColor='" + oppositeColor + '\'' +
-                ", latMin=" + latMin +
-                ", latMax=" + latMax +
-                ", lonMin=" + lonMin +
-                ", lonMax=" + lonMax +
-                ", stop=" + stop.size() +
-                ", direction=" + direction.size() +
-                ", path=" + path.size() +
-                '}';
     }
 }

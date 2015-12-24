@@ -17,6 +17,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import pl.lukmarr.thecastleofthemushroomderby.R;
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.ExtendedRoute;
 import pl.lukmarr.thecastleofthemushroomderby.options.Config;
 
 /**
@@ -36,7 +37,7 @@ public class RightDrawerHelper implements DrawerConnector {
     DrawerLayout drawerLayout;
     Progressable progressable;
     int mapViewHolder;
-
+    @Nullable LabelAdapterConnector labelConnector;
     /**
      * @param activity      fragmentActivity for fragment transaction
      * @param progressable  show/hide progressBar while map is loading
@@ -49,14 +50,23 @@ public class RightDrawerHelper implements DrawerConnector {
         this.progressable = progressable;
         this.mapViewHolder = mapViewHolder;
     }
+    public void setLabelConnector(LabelAdapterConnector connector){
+        this.labelConnector = connector;
+    }
+
 
     @Override
-    public void openDrawer(final LatLng position, final String partnerName) {
-        Log.d(TAG, "openDrawer " + position);
+    public void openDrawer(final ExtendedRoute route) {
+        if(labelConnector!=null)
+            labelConnector.onDrawerOpened(route);
+//        final ExtendedRoute route = extendedRouteList.get(0);
+        final LatLng position = route.getPath().get(0).getPoint().get(0).asLatLng();
+
         //provide NonNull Fragment instance
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance();
         }
+
         //attach mapFragment to ViewHolder
         activity.getSupportFragmentManager().beginTransaction().replace(mapViewHolder, mapFragment).commitAllowingStateLoss();
         drawerLayout.openDrawer(Gravity.RIGHT);
@@ -68,11 +78,12 @@ public class RightDrawerHelper implements DrawerConnector {
             public void onMapReady(GoogleMap googleMap) {
                 if (progressable != null) progressable.showLoader(false);
                 tripGoogleMap = googleMap;
-                tripGoogleMap.setTrafficEnabled(Config.OFFER_DETAILS_TRAFFIC_ENABLED);
+                tripGoogleMap.clear();
+                tripGoogleMap.setTrafficEnabled(Config.RIGHT_DRAWER_TRAFFIC_ENABLED);
                 tripGoogleMap.setMyLocationEnabled(true);
                 tripGoogleMap.addMarker(new MarkerOptions()
-                        .position(position)
-                        .title(partnerName)
+                                .position(position)
+                                .title(route.getTitle())
 //                        .icon(categorizedIconDescriptor(categoryCode))
                 );
                 tripGoogleMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition(position, 16, 60, 0)));

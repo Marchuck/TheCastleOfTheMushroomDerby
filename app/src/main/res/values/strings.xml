@@ -6,4 +6,8 @@
     <string name="title_activity_map">MapActivity</string>
     <string name="title_activity_route_list">RouteListActivity</string>
     <string name="GoogleMapsApiKey">AIzaSyBcVx_d1lXTrmuafLR8hYhaylBNgRPG-q4</string>
+    <string name="trnql_api_key">c9ad5f56-8d2b-4c01-9d30-ad6aa477e35c</string>
+    <string name="title_activity_location">LocationActivity</string>
+
+
 </resources>

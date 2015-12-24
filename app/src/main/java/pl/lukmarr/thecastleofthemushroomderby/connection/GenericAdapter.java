@@ -56,4 +56,8 @@ public class GenericAdapter<T> {
             return new Gson().fromJson(json, setDestinationClass());
         }
     }
- }
+
+    public NextBusClient createBusClient() {
+        return adapter.create(NextBusClient.class);
+    }
+}

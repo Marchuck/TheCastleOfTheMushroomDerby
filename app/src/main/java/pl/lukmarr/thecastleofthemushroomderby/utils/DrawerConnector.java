@@ -8,12 +8,12 @@ package pl.lukmarr.thecastleofthemushroomderby.utils;
  * Copyright © 2015 SoInteractive S.A. All rights reserved.
  */
 
-import com.google.android.gms.maps.model.LatLng;
-
 import java.io.Serializable;
 
+import pl.lukmarr.thecastleofthemushroomderby.model.nextBus.ExtendedRoute;
+
 public interface DrawerConnector extends Serializable {
-    void openDrawer(LatLng position, String description);
+    void openDrawer( ExtendedRoute  extendedRoutes);
 
     void closeDrawer();
 

@@ -1,4 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby.model;
+package pl.lukmarr.thecastleofthemushroomderby.model.starwars;
 
 /**
  * Created by Łukasz Marczak

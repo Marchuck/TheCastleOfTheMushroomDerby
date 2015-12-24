@@ -1,4 +1,4 @@
-package pl.lukmarr.thecastleofthemushroomderby.model;
+package pl.lukmarr.thecastleofthemushroomderby.model.nextBus;
 
 /**
  * Created by Łukasz Marczak
@@ -14,14 +14,6 @@ public class Stop {
     private String stopId;
 
     public Stop() {
-    }
-
-    public Stop(String tag, String title, String lat, String lon, String stopId) {
-        this.tag = tag;
-        this.title = title;
-        this.lat = lat;
-        this.lon = lon;
-        this.stopId = stopId;
     }
 
     public String getTag() {
@@ -40,6 +32,21 @@ public class Stop {
         this.title = title;
     }
 
+    public String getLat() {
+        return lat;
+    }
+
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+
+    public String getLon() {
+        return lon;
+    }
+
+    public void setLon(String lon) {
+        this.lon = lon;
+    }
 
     public String getStopId() {
         return stopId;
